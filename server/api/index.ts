@@ -1,3 +1,4 @@
+// server/api/index.ts
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import express from 'express';
 import cors from 'cors';
@@ -12,24 +13,24 @@ import hodRoutes from '../src/routes/hod';
 import eventRoutes from '../src/routes/events';
 import publicRoutes from '../src/routes/public';
 
+// Load environment variables
 dotenv.config();
 
+// Create Express app
 const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://server-rho-amber-36.vercel.app', 'https://ict-backend-8jup.vercel.app', 'https://ict-backend-sandy.vercel.app', 'http://localhost:17200'],
+  origin: true,
   credentials: true,
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from uploads directory
+// Serve static files
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-
-// Serve static files from public directory
 app.use('/public', express.static(path.join(__dirname, '../public')));
-// Also serve public files at root level for backward compatibility
 app.use('/', express.static(path.join(__dirname, '../public')));
 
 // Routes
@@ -40,21 +41,27 @@ app.use('/api/hod', hodRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api', publicRoutes);
 
-// Database connection - only for non-serverless environments
-if (process.env.NODE_ENV !== 'production' || process.env.VERCEL === '1') {
-  sequelize.authenticate()
-    .then(() => {
-      console.log('Database connected successfully');
-      return sequelize.sync();
-    })
-    .then(() => {
-      console.log('Database models synced');
-    })
-    .catch((error) => {
-      console.error('Unable to connect to the database:', error);
-      // In Vercel serverless, we'll connect on-demand for each request
-    });
-}
+// Error handling middleware
+app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('Unhandled error:', err);
+  res.status(500).json({ error: 'Internal server error', message: err.message });
+});
+
+// Database connection - test connection on startup
+(async () => {
+  try {
+    console.log('Attempting to connect to database...');
+    console.log('Database URL:', `mysql://${process.env.DB_USER}:****@${process.env.DB_HOST}:17200/${process.env.DB_NAME}`);
+    await sequelize.authenticate();
+    console.log('Database connected successfully');
+    await sequelize.sync();
+    console.log('Database models synced');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+    // Don't crash the server if database connection fails
+    // In Vercel serverless, connections are established on-demand for each request
+  }
+})();
 
 // Export the Express app for Vercel
 module.exports = app;
