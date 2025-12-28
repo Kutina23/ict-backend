@@ -9,11 +9,11 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://server-rho-amber-36.vercel.app',
+        target: 'https://ict-backend-production.up.railway.app',
         changeOrigin: true,
       },
       '/uploads': {
-        target: 'https://server-rho-amber-36.vercel.app',
+        target: 'https://ict-backend-production.up.railway.app',
         changeOrigin: true,
       }
     },
