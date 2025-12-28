@@ -40,18 +40,21 @@ app.use('/api/hod', hodRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api', publicRoutes);
 
-// Database connection
-sequelize.authenticate()
-  .then(() => {
-    console.log('Database connected successfully');
-    return sequelize.sync();
-  })
-  .then(() => {
-    console.log('Database models synced');
-  })
-  .catch((error) => {
-    console.error('Unable to connect to the database:', error);
-  });
+// Database connection - only for non-serverless environments
+if (process.env.NODE_ENV !== 'production' || process.env.VERCEL === '1') {
+  sequelize.authenticate()
+    .then(() => {
+      console.log('Database connected successfully');
+      return sequelize.sync();
+    })
+    .then(() => {
+      console.log('Database models synced');
+    })
+    .catch((error) => {
+      console.error('Unable to connect to the database:', error);
+      // In Vercel serverless, we'll connect on-demand for each request
+    });
+}
 
 // Export the Express app for Vercel
 module.exports = app;
