@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon src/server.ts",
-    "build": "start",
+    "build": "tsc",
     "seed": "ts-node src/seed.ts",
     "init-db": "node src/init-db.js",
     "fix-dues": "node src/fix-student-dues.js"
