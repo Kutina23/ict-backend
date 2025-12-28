@@ -4,7 +4,8 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const dbUrl = `mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:17200/${process.env.DB_NAME}?ssl-mode=REQUIRED`
+const dbPort = process.env.DB_PORT || '17200';
+const dbUrl = `mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${dbPort}/${process.env.DB_NAME}?ssl-mode=REQUIRED`
 
 export const sequelize = new Sequelize(dbUrl, {
   dialect: 'mysql',

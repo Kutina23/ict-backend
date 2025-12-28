@@ -10,7 +10,7 @@
     "seed": "ts-node src/seed.ts",
     "init-db": "node src/init-db.js",
     "fix-dues": "node src/fix-student-dues.js",
-    "vercel-build": "tsc && npm run build"
+    "vercel-build": "tsc"
   },
   "type": "commonjs",
   "keywords": [],

@@ -1,0 +1,11 @@
+# Files and directories to ignore during Vercel deployment
+node_modules/
+.env
+.env.example
+.gitignore
+.git/
+*.log
+*.md
+dist/
+uploads/
+public/
