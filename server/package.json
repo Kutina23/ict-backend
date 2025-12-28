@@ -9,7 +9,8 @@
     "build": "tsc",
     "seed": "ts-node src/seed.ts",
     "init-db": "node src/init-db.js",
-    "fix-dues": "node src/fix-student-dues.js"
+    "fix-dues": "node src/fix-student-dues.js",
+    "vercel-build": "tsc && npm run build"
   },
   "type": "commonjs",
   "keywords": [],
@@ -17,6 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/multer": "^2.0.0",
+    "@vercel/node": "^3.0.26",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",

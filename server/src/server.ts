@@ -14,10 +14,13 @@ import publicRoutes from './routes/public'
 dotenv.config()
 
 const app = express()
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 17200
 
 // Middleware
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:17200',
+  credentials: true,
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
