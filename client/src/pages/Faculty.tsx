@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowLeft, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
-import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 interface FacultyMember {
   id: number;
@@ -20,6 +20,7 @@ interface FacultyMember {
 }
 
 export default function Faculty() {
+  const { api } = useAuth();
   const [facultyMembers, setFacultyMembers] = useState<FacultyMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -31,7 +32,7 @@ export default function Faculty() {
   const fetchFaculty = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("/api/faculty");
+      const response = await api.get("/api/faculty");
       setFacultyMembers(response.data);
     } catch (error) {
       console.error("Failed to fetch faculty:", error);

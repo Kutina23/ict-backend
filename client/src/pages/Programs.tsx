@@ -8,7 +8,7 @@ import {
   FiCheckCircle,
   FiStar,
 } from "react-icons/fi";
-import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 interface Program {
   id: number;
@@ -22,6 +22,7 @@ interface Program {
 }
 
 export default function Programs() {
+  const { api } = useAuth();
   const [programs, setPrograms] = useState<Program[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -33,7 +34,7 @@ export default function Programs() {
   const fetchPrograms = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("/api/programs");
+      const response = await api.get("/api/programs");
       // Parse highlights from JSON string to array
       const programsWithParsedHighlights = response.data.map(
         (program: any) => ({

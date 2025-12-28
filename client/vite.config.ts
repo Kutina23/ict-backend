@@ -9,17 +9,13 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://ict-backend-8jup.vercel.app',
+        target: 'https://server-rho-amber-36.vercel.app',
         changeOrigin: true,
       },
       '/uploads': {
-        target: 'https://ict-backend-8jup.vercel.app',
+        target: 'https://server-rho-amber-36.vercel.app',
         changeOrigin: true,
-      },
-      '/default-avatar.svg': {
-        target: 'https://ict-backend-8jup.vercel.app',
-        changeOrigin: true,
-      },
+      }
     },
   },
 })

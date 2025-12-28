@@ -49,7 +49,7 @@ export default function HomePage() {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get("/api/events");
+      const response = await api.get("/api/events");
       setEvents(response.data);
     } catch (error) {
       console.error("Failed to fetch events:", error);
@@ -58,7 +58,7 @@ export default function HomePage() {
 
   const fetchPrograms = async () => {
     try {
-      const response = await axios.get("/api/programs");
+      const response = await api.get("/api/programs");
       // Parse highlights from JSON string to array
       const programsWithParsedHighlights = response.data.map(
         (program: any) => ({
@@ -80,7 +80,7 @@ export default function HomePage() {
   const fetchStats = async () => {
     try {
       setStatsLoading(true);
-      const response = await axios.get("/api/stats");
+      const response = await api.get("/api/stats");
       setStats(response.data);
     } catch (error) {
       console.error("Failed to fetch stats:", error);
@@ -93,7 +93,7 @@ export default function HomePage() {
   const fetchPartners = async () => {
     try {
       // Use the public partners endpoint directly
-      const response = await axios.get("/api/partners");
+      const response = await api.get("/api/partners");
       setPartners(response.data);
     } catch (error) {
       console.error("Failed to fetch partners:", error);

@@ -8,7 +8,7 @@ import {
   FiMapPin,
   FiUserCheck,
 } from "react-icons/fi";
-import axios from "axios";
+import { useAuth } from "../../context/AuthContext";
 import ImageUpload from "../../components/ImageUpload";
 
 interface FacultyMember {
@@ -45,6 +45,7 @@ interface FacultyImageFile {
 }
 
 export default function ManageFaculty() {
+  const { api } = useAuth();
   const [facultyMembers, setFacultyMembers] = useState<FacultyMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -74,12 +75,7 @@ export default function ManageFaculty() {
   const fetchFaculty = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("token");
-      const response = await axios.get("/api/hod/faculty", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.get("/api/hod/faculty");
       setFacultyMembers(response.data);
     } catch (error) {
       console.error("Failed to fetch faculty:", error);
@@ -137,7 +133,7 @@ export default function ManageFaculty() {
     }
 
     try {
-      await axios.delete(`/api/faculty/${id}`);
+      await api.delete(`/api/faculty/${id}`);
       await fetchFaculty();
     } catch (error) {
       console.error("Failed to delete faculty:", error);
@@ -200,13 +196,13 @@ export default function ManageFaculty() {
 
       let response;
       if (editingFaculty) {
-        response = await axios.put(
+        response = await api.put(
           `/api/hod/faculty/${editingFaculty.id}`,
           submitData,
           config
         );
       } else {
-        response = await axios.post("/api/hod/faculty", submitData, config);
+        response = await api.post("/api/hod/faculty", submitData, config);
       }
 
       console.log('Response:', response.data);
