@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 17200
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://ict-backend-sandy.vercel.app', 'http://localhost:17200'],
+  origin: ['http://localhost:3000', 'https://ict-backend-8jup.vercel.app', 'http://localhost:17200'],
   credentials: true,
 }))
 app.use(express.json())

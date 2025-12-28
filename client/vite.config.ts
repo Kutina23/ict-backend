@@ -9,15 +9,15 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://ict-backend-sandy.vercel.app',
+        target: 'https://ict-backend-8jup.vercel.app',
         changeOrigin: true,
       },
       '/uploads': {
-        target: 'https://ict-backend-sandy.vercel.app',
+        target: 'https://ict-backend-8jup.vercel.app',
         changeOrigin: true,
       },
       '/default-avatar.svg': {
-        target: 'https://ict-backend-sandy.vercel.app',
+        target: 'https://ict-backend-8jup.vercel.app',
         changeOrigin: true,
       },
     },
