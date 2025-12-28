@@ -2,6 +2,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 import { sequelize } from '../src/config/database';
 import '../src/models/index';
 import authRoutes from '../src/routes/auth';
@@ -16,9 +17,20 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://ict-backend-sandy.vercel.app', 'http://localhost:17200'],
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static files from uploads directory
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
+// Serve static files from public directory
+app.use('/public', express.static(path.join(__dirname, '../public')));
+// Also serve public files at root level for backward compatibility
+app.use('/', express.static(path.join(__dirname, '../public')));
 
 // Routes
 app.use('/api/auth', authRoutes);
